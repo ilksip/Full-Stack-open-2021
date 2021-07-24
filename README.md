@@ -1,3 +1,4 @@
 # full stack open 2021
-Finished parts:
+Parts finished:
+
 part 0
