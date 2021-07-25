@@ -20,14 +20,16 @@ const App = () => {
 const Button = (props) =>  {
   return <button onClick={props.action}>{props.text}</button>
 }
-const Statistics = (props) => {
+const Statistics = ({good, neutral, bad}) => {
+  const all = good+neutral+bad
   return(
-    
     <div>
       <h1>Statistics</h1>
-      <p>good: {props.good}</p>
-      <p>neutral: {props.neutral}</p>
-      <p>bad: {props.bad}</p>
+      <p>good: {good}</p>
+      <p>neutral: {neutral}</p>
+      <p>bad: {bad}</p>
+      <p>all: {all}</p>
+      <p>average: {(good-bad)/all}</p>
     </div>
   )
 
