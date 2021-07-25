@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import axios from "axios"
 import Form from "./components/Form"
 import Filter from "./components/Filter"
 import Display from "./components/Display"
+import contactService from "./services/contactService"
 const App = () => {
   const [persons, setPersons] = useState([])
   const [ newName, setNewName ] = useState('')
@@ -10,7 +10,7 @@ const App = () => {
   const [ filter, setFilter] = useState('')
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons")
+    contactService.getContacts()
     .then(response => setPersons(response.data))
   },[])
 
@@ -21,7 +21,7 @@ const App = () => {
     } 
     else {
       const newPerson = {name: newName, number: newNumber}
-      axios.post("http://localhost:3001/persons", newPerson)
+      contactService.createContact(newPerson)
       .then(response => {
         setPersons(persons.concat(response.data))
       })
@@ -30,6 +30,13 @@ const App = () => {
 
     setNewName("")
     setNewNumber("")
+  }
+  const deleteContact = (contact) => {
+    if (window.confirm(`Delete ${contact.name}?`)) {
+      contactService.deleteContact(contact.id)
+      setPersons(persons.filter(person => person.id !== contact.id))
+    }
+
   }
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -52,7 +59,7 @@ const App = () => {
       newName={newName} newNumber={newNumber} addContact={addContact}/>
       
       <h2>Numbers</h2>
-      <Display persons={persons} filter={filter}/>
+      <Display persons={persons} filter={filter} deleteContact={deleteContact}/>
     </div>
   )
 }
