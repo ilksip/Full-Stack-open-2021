@@ -1,14 +1,9 @@
 {
   "persons": [
     {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": 3
-    },
-    {
-      "name": "Toni Testi",
-      "number": "1203410410",
-      "id": 4
+      "name": "Testi Nimi",
+      "number": "001122",
+      "id": 1
     }
   ]
 }

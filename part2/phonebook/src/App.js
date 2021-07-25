@@ -2,17 +2,33 @@ import React, { useState, useEffect } from 'react'
 import Form from "./components/Form"
 import Filter from "./components/Filter"
 import Display from "./components/Display"
+import Notification from "./components/Notification"
 import contactService from "./services/contactService"
 const App = () => {
   const [persons, setPersons] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filter, setFilter] = useState('')
+  const [message, setMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     contactService.getContacts()
     .then(response => setPersons(response.data))
   },[])
+
+  const handleMessage = (message) => {
+    setMessage(message)
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
+  }
+  const handleError = (message) => {
+    setErrorMessage(message)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+  }
 
   const addContact = (event) => {
     event.preventDefault()
@@ -23,7 +39,12 @@ const App = () => {
         contactService.editContact(updatedContact)
         .then(response => {
           setPersons(persons.map(person => person.id !== existingContact.id ? person : response.data))
+          handleMessage(`${existingContact.name}'s number was changed successfully.`)
+        }).catch(error => {
+          handleError(`${newName} was already removed from the server`)
         })
+        
+        
       }
     } 
     else {
@@ -31,6 +52,7 @@ const App = () => {
       contactService.createContact(newPerson)
       .then(response => {
         setPersons(persons.concat(response.data))
+        handleMessage(`Added ${newName}`)
       })
       
     }
@@ -57,7 +79,8 @@ const App = () => {
 
   return (
     <div>
-      
+      <Notification.Message message={message}/>
+      <Notification.ErrorMessage message={errorMessage}/>
       <h2>Phonebook</h2>
       <Filter filter={filter} handleFilterChange={handleFilterChange}/>
       
