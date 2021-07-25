@@ -12,6 +12,7 @@ const App = () => {
       <Button action={() => setGood(good+1)} text="good"/>
       <Button action={() => setNeutral(neutral+1)} text="neutral"/>
       <Button action={() => setBad(bad+1)} text="bad"/>
+      <h1>Statistics</h1>
       <Statistics good={good} neutral={neutral} bad={bad}/>
     </div>
   )
@@ -22,16 +23,19 @@ const Button = (props) =>  {
 }
 const Statistics = ({good, neutral, bad}) => {
   const all = good+neutral+bad
-  return(
-    <div>
-      <h1>Statistics</h1>
-      <p>good: {good}</p>
-      <p>neutral: {neutral}</p>
-      <p>bad: {bad}</p>
-      <p>all: {all}</p>
-      <p>average: {(good-bad)/all}</p>
-    </div>
-  )
-
+  if (all !== 0) {
+    return(
+      <div>
+        <Statistic text="good" value={good}/>
+        <Statistic text="neutral" value={neutral}/>
+        <Statistic text="bad" value={bad}/>
+        <Statistic text="all" value={all}/>
+        <Statistic text="average" value={(good-bad)/all}/>
+      </div>
+    )
+  }
+  return(<p>No feedback given.</p>)
 }
+
+const Statistic = ({text, value}) => <p>{text}: {value}</p>
 export default App
