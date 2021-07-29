@@ -27,7 +27,7 @@ const App = () => {
     setErrorMessage(message)
     setTimeout(() => {
       setErrorMessage(null)
-    }, 5000)
+    }, 10000)
   }
 
   const addContact = (event) => {
