@@ -41,7 +41,7 @@ const App = () => {
           setPersons(persons.map(person => person.id !== existingContact.id ? person : response.data))
           handleMessage(`${existingContact.name}'s number was changed successfully.`)
         }).catch(error => {
-          handleError(`${newName} was already removed from the server`)
+          handleError(error.response.data.error)
         })
         
         
