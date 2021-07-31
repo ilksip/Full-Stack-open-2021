@@ -23,9 +23,20 @@ const mostBlogs = (blogs) => {
             return author
         })
         .reduce((acc, cur) => (acc.blogs > cur.blogs) ? acc : cur)
+    console.log(result)
     return result
 }
 
+const mostLikes = (blogs) => {
+    const sortByAuthor = _.groupBy(blogs, "author")
+    const likes = _.map(sortByAuthor, (val, key) => {
+        const likes = _.reduce(val, (acc, cur) => acc + cur.likes, 0)
+        return {author: key, likes}
+    })
+    const mostLiked = _.reduce(likes, (acc, cur) => (acc.likes > cur.likes) ? acc : cur)
+    return mostLiked
+}
+
 module.exports = {
-    dummy, totalLikes, favoriteBlog, mostBlogs
+    dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes
 }
