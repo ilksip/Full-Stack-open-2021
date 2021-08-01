@@ -9,6 +9,10 @@ beforeEach(async () => {
     await Blog.deleteMany({})
     await Blog.insertMany(blogs.all)
 })
+test("expect unique identifier property of the blog posts to be named id", async () => {
+    const response = await api.get("/api/blogs")
+    expect(response.body[0].id).toBeDefined()
+})
 
 test("HTTP GET returns the correct amount of blogs", async () => {
     const response = await api.get("/api/blogs")
