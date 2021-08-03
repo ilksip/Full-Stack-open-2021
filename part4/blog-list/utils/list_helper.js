@@ -23,7 +23,6 @@ const mostBlogs = (blogs) => {
             return author
         })
         .reduce((acc, cur) => (acc.blogs > cur.blogs) ? acc : cur)
-    console.log(result)
     return result
 }
 
