@@ -10,9 +10,7 @@ const App = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [user, setUser] = useState(null)
-  const [title, setTitle] = useState("")
-  const [author, setAuthor] = useState("")
-  const [url, setUrl] = useState("")
+
 //get blogs on first site load
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -28,26 +26,18 @@ const App = () => {
       setUser(parsedUser)
     }
   }, [])
+
   const handleNotification = msg => {
     setNotification(msg)
     setTimeout(() => {
       setNotification(null)
     }, 5000);
   }
-  const handleBlogCreation = async (event) => {
-    event.preventDefault()
-    
-    const blogObject = {
-      title: title,
-      author: author,
-      url: url
-    }
+  const handleBlogCreation = async (blogObject) => {
     try {
       const returnedBlog = await blogService.post(blogObject)
       setBlogs(blogs.concat(returnedBlog))
-      handleNotification(`A new blog "${title}" by ${author?author:user.name} added`)
-      setTitle(""); setAuthor(""); setUrl("");
-
+      handleNotification(`A new blog "${blogObject.title}" by ${blogObject.author?blogObject.author:user.name} added`)
     } catch(exception) {
       handleNotification("Blog creation failed")
     }
@@ -101,9 +91,6 @@ const App = () => {
           </div>
           <BlogCreation
           handleBlogCreation={handleBlogCreation}
-          title={title} setTitle={setTitle}
-          author={author} setAuthor={setAuthor}
-          url={url} setUrl={setUrl}
           />
         <h2>blogs:</h2>
         {blogs.map(blog =>
@@ -120,7 +107,6 @@ const App = () => {
         loginForm() : blogForm()}
     </div>
   )
-  
 }
 
 export default App

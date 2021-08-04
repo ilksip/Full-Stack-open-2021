@@ -1,10 +1,24 @@
 import { useState } from "react"
 
-  const BlogCreation = ({handleBlogCreation, title, setTitle, author, setAuthor, url, setUrl}) => {
+  const BlogCreation = ({handleBlogCreation}) => {
     const [visible, setVisible] = useState(false)
     const hideWhenVisible = { display: visible ? "none" : "" }
     const showWhenVisible = { display: visible ? "" : "none" }
-
+    const [title, setTitle] = useState("")
+    const [author, setAuthor] = useState("")
+    const [url, setUrl] = useState("")
+    const submitHandler = (event) => {
+        event.preventDefault()
+        const blogObject = {
+            title: title,
+            author: author,
+            url: url
+        }
+        handleBlogCreation(blogObject)
+        setTitle("")
+        setAuthor("")
+        setUrl("")
+    }
     return(
       <div>
         <div style={hideWhenVisible}>
@@ -12,7 +26,7 @@ import { useState } from "react"
         </div>
         <div style={showWhenVisible}>
             <h2>create new blog</h2>
-            <form onSubmit={handleBlogCreation}>
+            <form onSubmit={submitHandler}>
             <div>
             title:<input
                 type="text" value={title} name="title"
