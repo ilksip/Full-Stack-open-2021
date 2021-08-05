@@ -26,6 +26,15 @@ const App = () => {
       setUser(parsedUser)
     }
   }, [])
+
+  //NOTIFICATION
+  const handleNotification = msg => {
+    setNotification(msg)
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000);
+  }
+//BLOG HANDLERS
   const blogLikeHandler = async (id, blogObject) => {
     try {
       const updatedBlog = await blogService.put(id, blogObject)
@@ -35,21 +44,29 @@ const App = () => {
       handleNotification("like failed :(")
     }
   }
-  const handleNotification = msg => {
-    setNotification(msg)
-    setTimeout(() => {
-      setNotification(null)
-    }, 5000);
-  }
   const handleBlogCreation = async (blogObject) => {
     try {
       const returnedBlog = await blogService.post(blogObject)
+      returnedBlog.user = user
       setBlogs(blogs.concat(returnedBlog))
       handleNotification(`A new blog "${blogObject.title}" by ${blogObject.author?blogObject.author:user.name} added`)
     } catch(exception) {
       handleNotification("Blog creation failed")
     }
   }
+  const handleBlogRemoval = async (blogObject) => {
+    if (window.confirm(`Remove "${blogObject.title}" by ${blogObject.author}?`)) {
+      try{
+        await blogService.remove(blogObject.id)
+        setBlogs(blogs.filter(blog => blog.id !== blogObject.id))
+        handleNotification("Blog successfully deleted!")
+      } catch(exception) {
+        handleNotification("Blog deletion failed")
+      }
+    }
+  }
+
+  //LOGIN HANDLERS
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -65,6 +82,8 @@ const App = () => {
     window.localStorage.removeItem("loggeduser")
     setUser(null)
   }
+
+  //FORMS
   const loginForm = () => {
     return(
         <div>
@@ -107,7 +126,10 @@ const App = () => {
           <Blog
           key={blog.id}
           blog={blog}
-          blogLikeHandler={blogLikeHandler} />
+          user={user}
+          blogLikeHandler={blogLikeHandler}
+          handleBlogRemoval={handleBlogRemoval}
+          />
         )}
       </div>
     )

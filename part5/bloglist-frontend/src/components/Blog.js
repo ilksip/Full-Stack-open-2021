@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-const Blog = ({blog, blogLikeHandler}) => {
+const Blog = ({blog, user, blogLikeHandler, handleBlogRemoval}) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -20,6 +20,10 @@ const Blog = ({blog, blogLikeHandler}) => {
     blogLikeHandler(blog.id, blogObject)
 
   }
+  const handleRemove = async (event) => {
+    event.preventDefault()
+    handleBlogRemoval(blog)
+  }
 
   const [visible, setVisible] = useState(false)
   const showWhenVisible = { display: visible ? "" : "none" }
@@ -36,6 +40,7 @@ const Blog = ({blog, blogLikeHandler}) => {
         <button onClick={handleLike}>like</button>
         </div>
         <div>poster: {blog.user.name}</div>
+        <div>{blog.user.username === user.username ? <button onClick={handleRemove}>delete</button> :null}</div>
       </div>
     </div>  
   )
