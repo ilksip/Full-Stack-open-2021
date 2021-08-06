@@ -27,22 +27,21 @@ const Blog = ({ blog, user, blogLikeHandler, handleBlogRemoval }) => {
     }
 
     const [visible, setVisible] = useState(false)
-    const showWhenVisible = { display: visible ? "" : "none" }
     return(
-        <div style={blogStyle}>
+        <div className="blog" style={blogStyle}>
       "{blog.title}", by {blog.author}
             <button
                 onClick={() => setVisible(!visible)}>
                 {visible ? "hide":"show"}
             </button>
-            <div style={showWhenVisible}>
+            {visible && <div className ="hiddenContent">
                 <div>{blog.url}</div>
                 <div>likes: {blog.likes}
                     <button onClick={handleLike}>like</button>
                 </div>
                 <div>poster: {blog.user.name}</div>
                 <div>{blog.user.username === user.username ? <button onClick={handleRemove}>delete</button> :null}</div>
-            </div>
+            </div>}
         </div>
     )
 }
