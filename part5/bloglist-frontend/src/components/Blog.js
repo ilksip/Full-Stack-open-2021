@@ -31,6 +31,7 @@ const Blog = ({ blog, user, blogLikeHandler, handleBlogRemoval }) => {
         <div className="blog" style={blogStyle}>
       "{blog.title}", by {blog.author}
             <button
+                className="expandButton"
                 onClick={() => setVisible(!visible)}>
                 {visible ? "hide":"show"}
             </button>
