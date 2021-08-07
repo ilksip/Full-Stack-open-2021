@@ -54,20 +54,17 @@ describe("Blog app", function () {
 
         describe("when there are blogs", function() {
             beforeEach(function () {
-                cy.contains("create a new blog").click()
-                cy.get("#author").type("cypress")
-                cy.get("#title").type("cypress blog")
-                cy.get("#url").type("these make no sense")
-                cy.get("#blogSubmit").click()
+                cy.createBlog({ author: "cypress", title: "cypress blog", url: "url com", likes: 0 })
+                cy.visit("http://localhost:3000")
             })
 
-            it("a blog can be liked", function () {
+            it.only("a blog can be liked", function () {
                 cy.get("#listOfBlogs")
                     .contains("cypress blog")
                     .contains("show").click()
-                cy.contains("likes: 0")
+                cy.get(".likesNumber").contains("0")
                 cy.get("#likeButton").click()
-                cy.contains("likes: 1")
+                cy.get(".likesNumber").contains("1")
             })
 
             it("a blog can be deleted", function () {
@@ -82,6 +79,29 @@ describe("Blog app", function () {
                     .should("not.exist")
 
             })
+        })
+    })
+    describe("When list has multiple blogs,", function () {
+        beforeEach(function () {
+            cy.login({ username: "usertest", password:"pass" })
+            cy.createBlog({ author: "cypress", title: "blog one", url: "url com" , likes: 10 })
+            cy.createBlog({ author: "sserpyc", title: "blog two", url: "url com" , likes: 2 })
+            cy.createBlog({ author: "scpyr", title: "blog four", url: "url com" , likes: 200 })
+            cy.createBlog({ author: "percy s.", title: "blog three", url: "url com" , likes: 5 })
+            cy.visit("http://localhost:3000")
+        })
+        it("blogs are ordered by likes", function () {
+            cy.get("#listOfBlogs").children().each(() => {
+                cy.contains("show").click()
+            })
+            cy.get(".likesNumber").then((likes) => {
+                for (let i = 0; i < likes.length; i++) {
+                    if (i !== likes.length-1) {
+                        expect(likes[i].textContent >= likes[i+1].textContent)
+                    }
+                }
+            })
+            cy.log("i want die").wait(500)
         })
     })
 })
