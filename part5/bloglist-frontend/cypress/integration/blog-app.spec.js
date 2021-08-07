@@ -52,7 +52,7 @@ describe("Blog app", function () {
             cy.get("#listOfBlogs").contains("cypress trees")
         })
 
-        describe("and there are blogs", function() {
+        describe("when there are blogs", function() {
             beforeEach(function () {
                 cy.contains("create a new blog").click()
                 cy.get("#author").type("cypress")
@@ -68,6 +68,19 @@ describe("Blog app", function () {
                 cy.contains("likes: 0")
                 cy.get("#likeButton").click()
                 cy.contains("likes: 1")
+            })
+
+            it("a blog can be deleted", function () {
+                cy.get("#listOfBlogs")
+                    .contains("cypress blog")
+                    .contains("show").click()
+
+                cy.contains("delete").click()
+
+                cy.get("#listOfBlogs")
+                    .contains("cypress blog")
+                    .should("not.exist")
+
             })
         })
     })
