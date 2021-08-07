@@ -92,25 +92,25 @@ const App = () => {
                     <div>
                         username:
                         <input
-                            type="text" value={username} name="Username"
+                            id = "username" type="text" value={username} name="Username"
                             onChange={({ target }) => setUsername(target.value)}
                         />
                     </div>
                     <div>
                         password:
                         <input
-                            type="text" value={password} name="Username"
+                            id = "password" type="text" value={password} name="Password"
                             onChange={({ target }) => setPassword(target.value)}
                         />
                     </div>
-                    <button type="submit">login</button>
+                    <button id="login-button" type="submit">login</button>
                 </form>
             </div>
         )
     }
     const blogForm = () => {
         return (
-            <div>
+            <div id="blogForm">
                 <h1>blogs app</h1>
                 <div>
                     {user.name} logged in
