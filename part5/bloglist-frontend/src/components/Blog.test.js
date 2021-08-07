@@ -3,7 +3,8 @@ import "@testing-library/jest-dom/extend-expect"
 import { render, fireEvent } from "@testing-library/react"
 import Blog from "./Blog"
 
-const mockHandler = jest.fn()
+const mockLikeHandler = jest.fn()
+const mockRemovalHandler = jest.fn()
 const user = {
     username:"poster",
     name:"poster"
@@ -17,8 +18,8 @@ const blog = {
 }
 const blogComponent =
 <Blog blog={blog}
-    blogLikeHandler={mockHandler}
-    handleBlogRemoval={mockHandler}
+    blogLikeHandler={mockLikeHandler}
+    handleBlogRemoval={mockRemovalHandler}
     user={user}
 />
 
@@ -36,5 +37,14 @@ describe("a blog component",() => {
         fireEvent.click(button)
         expect(component.container).toHaveTextContent(blog.url)
         expect(component.container).toHaveTextContent(blog.likes)
+    })
+    test("The 'like' button calls its event handler the right amount of times", () => {
+        const component = render(blogComponent)
+        const expand = component.container.querySelector(".expandButton")
+        fireEvent.click(expand)
+        const button = component.container.querySelector(".likeButton")
+        fireEvent.click(button)
+        fireEvent.click(button)
+        expect(mockLikeHandler.mock.calls).toHaveLength(2)
     })
 })
