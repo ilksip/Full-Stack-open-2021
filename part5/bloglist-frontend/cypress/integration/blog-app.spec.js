@@ -34,9 +34,8 @@ describe("Blog app", function () {
     })
     describe("When logged in", function () {
         beforeEach(function () {
-            cy.get("#username").type("usertest")
-            cy.get("#password").type("pass")
-            cy.get("#login-button").click()
+            cy.login({ username: "usertest", password:"pass" })
+            cy.visit("http://localhost:3000")
         })
 
         it("A blog can be created", function () {
@@ -51,6 +50,25 @@ describe("Blog app", function () {
             cy.get("#url").type(testBlog.url)
             cy.get("#blogSubmit").click()
             cy.get("#listOfBlogs").contains("cypress trees")
+        })
+
+        describe("and there are blogs", function() {
+            beforeEach(function () {
+                cy.contains("create a new blog").click()
+                cy.get("#author").type("cypress")
+                cy.get("#title").type("cypress blog")
+                cy.get("#url").type("these make no sense")
+                cy.get("#blogSubmit").click()
+            })
+
+            it("a blog can be liked", function () {
+                cy.get("#listOfBlogs")
+                    .contains("cypress blog")
+                    .contains("show").click()
+                cy.contains("likes: 0")
+                cy.get("#likeButton").click()
+                cy.contains("likes: 1")
+            })
         })
     })
 })
