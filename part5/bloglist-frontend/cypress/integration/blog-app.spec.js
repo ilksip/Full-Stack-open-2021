@@ -8,7 +8,7 @@ describe("Blog app", function () {
             username: "usertest",
             password: "pass"
         }
-        cy.request("POST","http://localhost:3003/api/users", user)
+        cy.request("POST", "http://localhost:3003/api/users", user)
         cy.visit("http://localhost:3000")
     })
 
@@ -30,6 +30,27 @@ describe("Blog app", function () {
             cy.get("#login-button").click()
             cy.contains("Wrong credentials")
             // ...
+        })
+    })
+    describe("When logged in", function () {
+        beforeEach(function () {
+            cy.get("#username").type("usertest")
+            cy.get("#password").type("pass")
+            cy.get("#login-button").click()
+        })
+
+        it("A blog can be created", function () {
+            const testBlog = {
+                title: "cypress trees",
+                author: "cypress",
+                url: "localhost"
+            }
+            cy.contains("create a new blog").click()
+            cy.get("#author").type(testBlog.author)
+            cy.get("#title").type(testBlog.title)
+            cy.get("#url").type(testBlog.url)
+            cy.get("#blogSubmit").click()
+            cy.get("#listOfBlogs").contains("cypress trees")
         })
     })
 })
