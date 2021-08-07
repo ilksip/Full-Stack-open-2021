@@ -58,7 +58,7 @@ describe("Blog app", function () {
                 cy.visit("http://localhost:3000")
             })
 
-            it.only("a blog can be liked", function () {
+            it("a blog can be liked", function () {
                 cy.get("#listOfBlogs")
                     .contains("cypress blog")
                     .contains("show").click()
