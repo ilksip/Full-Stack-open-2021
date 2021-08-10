@@ -11,7 +11,7 @@ const Notification = (props) => {
     return (
         notification 
         ? <div style={style}>
-            {notification}
+            {notification.text}
         </div>
         : null
     )
