@@ -12,3 +12,5 @@ part 3 (Exercises 3.1 - 3.22)
 part 4 (Exercises 4.1 - 4.23)
 
 part 5 (Exercises 5.1 - 5.22)
+
+part 6 (Exercises 6.1 - 6.21)

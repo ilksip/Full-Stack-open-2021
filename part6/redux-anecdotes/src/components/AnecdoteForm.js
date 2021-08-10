@@ -7,8 +7,12 @@ const AnecdoteForm = (props) => {
         event.preventDefault()
         const anecdote = event.target.anecdote.value
         event.target.anecdote.value = ""
+        let id = "none"
+        if (props.notification) {
+            id = props.notification.timeoutId
+        }
         props.addAnecdote(anecdote)       
-        props.setNotification(`You created "${anecdote}"`, 5)
+        props.setNotification(`You created "${anecdote}"`, 5, id)
     }
     return (
         <div>
@@ -20,7 +24,11 @@ const AnecdoteForm = (props) => {
         </div>
     )
 }
-
+const mapStateToProps = (state) => {
+    return {
+        notification: state.notification
+    }
+}
 const mapDispatchToProps = { addAnecdote, setNotification }
-const connectedForm = connect(null, mapDispatchToProps)(AnecdoteForm)
+const connectedForm = connect(mapStateToProps, mapDispatchToProps)(AnecdoteForm)
 export default connectedForm

@@ -8,12 +8,16 @@ const AnecdoteList = () => {
         .filter(anecdote => anecdote.content
             .toLowerCase()
             .includes(filter.toLowerCase())))
-    
+    const notification = useSelector(state => state.notification)
     const dispatch = useDispatch()
     
     const vote = (anecdote) => {
+        let id = "none"
+        if (notification) {
+            id = notification.timeoutId
+        }
         dispatch(addVote(anecdote))
-        dispatch(setNotification(`You voted "${anecdote.content}"`, 5))
+        dispatch(setNotification(`You voted "${anecdote.content}"`, 5, id))
     }
     return (
         <div>

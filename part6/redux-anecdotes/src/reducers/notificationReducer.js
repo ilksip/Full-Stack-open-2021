@@ -1,14 +1,18 @@
-export const setNotification = (text, timeout) => {
+export const setNotification = (text, timeout, prevId) => {
     return async (dispatch, getState) => {
-
-        setTimeout(() => {
+        if (prevId) {
+            console.log(prevId)
+            console.log("here")
+            clearTimeout(prevId)
+        }
+        const timeoutId = setTimeout(() => {
             dispatch({
                 type: "CLEAR"
             })
         }, timeout*1000)
         dispatch({
             type: "SET_NOTIFICATION",
-            notification: {text}
+            notification: {text, timeoutId}
         })
     }
 }
