@@ -1,25 +1,33 @@
+import anecdoteService from "../services/anecdotes"
 
-const getId = () => (100000 * Math.random()).toFixed(0)
-
-
-export const addVote = (id) => {
-    return {
-        type: 'VOTE',
-        data: { id }
+export const addVote = (anecdote) => {
+    return async dispatch => {
+        await anecdoteService.vote(anecdote)
+        dispatch({
+            type: 'VOTE',
+            data: {id: anecdote.id}
+        })
     }
 }
 
 export const addAnecdote = (anecdote) => {
-    return {
-        type: "ADD_ANECDOTE",
-        data: anecdote
+    return async dispatch => {
+        const newAnecdote = await anecdoteService.create(anecdote)
+        dispatch({
+            type: "ADD_ANECDOTE",
+            data: newAnecdote
+        })
     }
 }
 
-export const initAnecdotes = (anecdotes) => {
-    return {
-        type: "INIT_ANECDOTES",
-        data: anecdotes
+export const initAnecdotes = () => {
+    return async dispatch => {
+        const anecdotes = await anecdoteService.getAll()
+        dispatch({
+            type: "INIT_ANECDOTES",
+            data: anecdotes
+        })
+        
     }
 }
 
