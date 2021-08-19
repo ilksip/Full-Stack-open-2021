@@ -8,6 +8,7 @@ export const add_like = (blog) => {
             type: "LIKE",
             data: { id: blog.id }
         })
+        dispatch(set_notification(`You liked "${blog.title}!"`))
     }
 }
 export const remove_blog = (blog) => {

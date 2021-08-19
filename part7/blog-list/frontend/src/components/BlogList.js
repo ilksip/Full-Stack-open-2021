@@ -3,16 +3,16 @@ import BlogCreation from "./BlogCreation"
 import Blog from "./Blog"
 import { init_blogs } from "../reducers/blogReducer"
 import { useSelector, useDispatch } from "react-redux"
-
-const BlogForm = ({ user, setUser }) => {
+import { logout } from "../reducers/userReducer"
+const BlogForm = () => {
     const blogs = useSelector(state => state.blogs)
+    const user = useSelector(state => state.user)
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(init_blogs())
     }, [])
     const handleLogout = () => {
-        window.localStorage.removeItem("loggeduser")
-        setUser(null)
+        dispatch(logout())
     }
     if (!user) {
         return null

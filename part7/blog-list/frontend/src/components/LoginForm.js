@@ -1,19 +1,16 @@
 import React, { useState } from "react"
-import loginService from "../services/login"
-import blogService from "../services/blogs"
-const loginForm = ({ user, setUser, handleNotification }) => {
+import { login } from "../reducers/userReducer"
+import { useDispatch, useSelector } from "react-redux"
+const loginForm = () => {
+    const user = useSelector(state => state.user)
+    const dispatch = useDispatch()
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+
     const handleLogin = async (event) => {
         event.preventDefault()
-        try {
-            const user = await loginService.login({ username, password })
-            setUser(user); setUsername(""); setPassword("")
-            blogService.setToken(user.token)
-            window.localStorage.setItem("loggeduser", JSON.stringify(user))
-        } catch (exception) {
-            handleNotification("Wrong credentials")
-        }
+        dispatch(login(username, password))
+        setUsername(""); setPassword("")
     }
 
     if (user) {
