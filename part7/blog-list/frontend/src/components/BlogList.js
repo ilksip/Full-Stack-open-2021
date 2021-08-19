@@ -4,7 +4,7 @@ import Blog from "./Blog"
 import { init_blogs } from "../reducers/blogReducer"
 import { useSelector, useDispatch } from "react-redux"
 
-const BlogForm = ({ user, setUser, handleBlogRemoval, blogLikeHandler }) => {
+const BlogForm = ({ user, setUser }) => {
     const blogs = useSelector(state => state.blogs)
     const dispatch = useDispatch()
     useEffect(() => {
@@ -36,8 +36,6 @@ const BlogForm = ({ user, setUser, handleBlogRemoval, blogLikeHandler }) => {
                             key={blog.id}
                             blog={blog}
                             user={user}
-                            blogLikeHandler={blogLikeHandler}
-                            handleBlogRemoval={handleBlogRemoval}
                         />
                     )}
             </div>

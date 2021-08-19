@@ -1,19 +1,29 @@
 
 import blogService from "../services/blogs"
-
-export const addVote = (blog) => {
+import { set_notification } from "./notificationReducer"
+export const add_like = (blog) => {
     return async dispatch => {
-        await blogService.vote(blog)
+        await blogService.like(blog)
         dispatch({
-            type: "VOTE",
+            type: "LIKE",
             data: { id: blog.id }
         })
     }
 }
-
+export const remove_blog = (blog) => {
+    return async dispatch => {
+        await blogService.remove(blog.id)
+        dispatch({
+            type: "REMOVE",
+            id: blog.id
+        })
+        dispatch(set_notification(`"${blog.title}" has been removed.`))
+    }
+}
 export const add_blog = (blog, user) => {
     return async dispatch => {
         const newBlog = await blogService.post(blog)
+        dispatch(set_notification(`A new blog "${newBlog.title}" by ${newBlog.author ? newBlog.author : user.name} added`))
         newBlog.user = user
         dispatch({
             type: "ADD_BLOG",
@@ -39,6 +49,15 @@ const reducer = (state = [], action) => {
         return [...state, action.data]
     case "INIT_BLOGS":
         return action.data
+    case "LIKE": {
+        const id = action.data.id
+        const toChange = state.find(a => a.id === id)
+        const changedBlog = { ...toChange, likes: toChange.likes + 1 }
+        return state.map(blog => blog.id !== id ? blog : changedBlog)
+    }
+    case "REMOVE": {
+        return state.filter(blog => blog.id !== action.id)
+    }
     default: return state
     }
 }

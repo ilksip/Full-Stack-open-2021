@@ -23,7 +23,11 @@ const put = async (id, blog) => {
     const response = await axios.put(`${baseUrl}/${id}`, blog)
     return response.data
 }
-
+const like = async (blog) => {
+    const url = `${baseUrl}/${blog.id}`
+    const liked = { ...blog, likes: blog.likes + 1 }
+    axios.put(url, liked)
+}
 const remove = async (id) => {
     const config = {
         headers: { Authorization: token },
@@ -31,4 +35,4 @@ const remove = async (id) => {
     await axios.delete(`${baseUrl}/${id}`, config)
 }
 
-export default { getAll, post, setToken, put, remove }
+export default { getAll, post, setToken, put, remove, like }
