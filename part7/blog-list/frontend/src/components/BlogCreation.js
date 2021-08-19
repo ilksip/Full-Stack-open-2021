@@ -1,6 +1,9 @@
 import React, { useState } from "react"
-
-const BlogCreation = ({ handleBlogCreation }) => {
+import { add_blog } from "../reducers/blogReducer"
+import { set_notification } from "../reducers/notificationReducer"
+import { useDispatch } from "react-redux"
+const BlogCreation = ({ user }) => {
+    const dispatch = useDispatch()
     const [visible, setVisible] = useState(false)
     const hideWhenVisible = { display: visible ? "none" : "" }
     const showWhenVisible = { display: visible ? "" : "none" }
@@ -8,13 +11,19 @@ const BlogCreation = ({ handleBlogCreation }) => {
     const [author, setAuthor] = useState("")
     const [url, setUrl] = useState("")
     const submitHandler = (event) => {
+        console.log(user)
         event.preventDefault()
         const blogObject = {
             title: title,
             author: author,
             url: url
         }
-        handleBlogCreation(blogObject)
+        try {
+            dispatch(add_blog(blogObject, user))
+            dispatch(set_notification(`A new blog "${blogObject.title}" by ${blogObject.author ? blogObject.author : user.name} added`))
+        } catch (exception) {
+            dispatch(set_notification("Blog creation failed"))
+        }
         setTitle("")
         setAuthor("")
         setUrl("")
