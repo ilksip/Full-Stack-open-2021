@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react"
 import userService from "../../../services/users"
-//import { useSelector, useDispatch } from "react-redux"
+import UserList from "./UserList"
+import IndividualUser from "./IndividualUser"
+import {
+    BrowserRouter as Router,
+    Switch, Route
+} from "react-router-dom"
+
 const UserDisplay = () => {
     const [users, setUsers] = useState([])
     useEffect(() => {
@@ -11,21 +17,17 @@ const UserDisplay = () => {
             })
     }, [])
     return(
-        <div>
-            <h2>Users:</h2>
-            <table>
-                <tr>
-                    <th></th>
-                    <th>blogs created</th>
-                </tr>
-                {users.map(user =>
-                    <tr key={user.id}>
-                        <th>{user.name}</th>
-                        <th>{user.blogs.length}</th>
-                    </tr>
-                )}
-            </table>
-        </div>
+
+        <Router>
+            <Switch>
+                <Route path="/users/:id">
+                    <IndividualUser users={users}/>
+                </Route>
+                <Route path="/">
+                    <UserList users = {users}/>
+                </Route>
+            </Switch>
+        </Router>
     )
 }
 
