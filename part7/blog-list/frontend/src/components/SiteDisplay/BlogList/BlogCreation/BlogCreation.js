@@ -1,7 +1,8 @@
 import React, { useState } from "react"
-import { add_blog } from "../reducers/blogReducer"
-import { useDispatch } from "react-redux"
-const BlogCreation = ({ user }) => {
+import { add_blog } from "../../../../reducers/blogReducer"
+import { useDispatch, useSelector } from "react-redux"
+const BlogCreation = () => {
+    const user = useSelector(state => state.user)
     const dispatch = useDispatch()
     const [visible, setVisible] = useState(false)
     const hideWhenVisible = { display: visible ? "none" : "" }

@@ -1,8 +1,9 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
-import { add_like, remove_blog } from "../reducers/blogReducer"
-import { useDispatch } from "react-redux"
-const Blog = ({ blog, user }) => {
+import { add_like, remove_blog } from "../../../../reducers/blogReducer"
+import { useDispatch, useSelector } from "react-redux"
+const Blog = ({ blog }) => {
+    const user = useSelector(state => state.user)
     const dispatch = useDispatch()
     const blogStyle = {
         paddingTop: 10,
@@ -27,7 +28,7 @@ const Blog = ({ blog, user }) => {
     const [visible, setVisible] = useState(false)
     return(
         <div id="blogObject"className="blogObject" style={blogStyle}>
-      "{blog.title}", by {blog.author}
+            "{blog.title}", by {blog.author}
             <button
                 className="expandButton"
                 onClick={() => setVisible(!visible)}>

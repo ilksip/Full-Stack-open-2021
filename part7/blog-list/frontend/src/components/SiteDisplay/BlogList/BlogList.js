@@ -1,33 +1,18 @@
 import React, { useEffect } from "react"
-import BlogCreation from "./BlogCreation"
-import Blog from "./Blog"
-import { init_blogs } from "../reducers/blogReducer"
+import BlogCreation from "./BlogCreation/BlogCreation"
+import Blog from "./Blog/Blog"
+import { init_blogs } from "../../../reducers/blogReducer"
 import { useSelector, useDispatch } from "react-redux"
-import { logout } from "../reducers/userReducer"
 const BlogForm = () => {
     const blogs = useSelector(state => state.blogs)
-    const user = useSelector(state => state.user)
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(init_blogs())
     }, [])
-    const handleLogout = () => {
-        dispatch(logout())
-    }
-    if (!user) {
-        return null
-    }
     return (
         <div id="blogForm">
-            <h1>blogs app</h1>
-            <div>
-                {user.name} logged in
-                <button onClick={() => handleLogout()}>logout</button>
-            </div>
-            <BlogCreation
-                user={user}
-            />
             <h2>blogs:</h2>
+            <BlogCreation/>
             <div id="listOfBlogs">
                 {blogs
                     .sort((a, b) => (b.likes - a.likes))
@@ -35,7 +20,6 @@ const BlogForm = () => {
                         <Blog
                             key={blog.id}
                             blog={blog}
-                            user={user}
                         />
                     )}
             </div>
