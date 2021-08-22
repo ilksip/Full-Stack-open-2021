@@ -1,14 +1,16 @@
-import React, { useEffect } from "react"
+import React from "react"
 import BlogCreation from "./BlogCreation/BlogCreation"
-import Blog from "./Blog/Blog"
-import { init_blogs } from "../../../reducers/blogReducer"
-import { useSelector, useDispatch } from "react-redux"
-const BlogForm = () => {
-    const blogs = useSelector(state => state.blogs)
-    const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(init_blogs())
-    }, [])
+
+import { Link } from "react-router-dom"
+const BlogForm = ({ blogs }) => {
+    const blogStyle = {
+        paddingTop: 10,
+        paddingLeft: 2,
+        border: "solid",
+        borderWidth: 1,
+        marginBottom: 5
+    }
+
     return (
         <div id="blogForm">
             <h2>blogs:</h2>
@@ -17,10 +19,9 @@ const BlogForm = () => {
                 {blogs
                     .sort((a, b) => (b.likes - a.likes))
                     .map(blog =>
-                        <Blog
-                            key={blog.id}
-                            blog={blog}
-                        />
+                        <div key={blog.id} style={blogStyle}>
+                            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+                        </div>
                     )}
             </div>
         </div>

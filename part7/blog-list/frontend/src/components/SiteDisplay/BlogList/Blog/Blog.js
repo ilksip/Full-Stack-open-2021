@@ -1,16 +1,17 @@
-import React, { useState } from "react"
-import PropTypes from "prop-types"
+import React from "react"
 import { add_like, remove_blog } from "../../../../reducers/blogReducer"
 import { useDispatch, useSelector } from "react-redux"
+import { useHistory } from "react-router-dom"
+import { set_notification } from "../../../../reducers/notificationReducer"
 const Blog = ({ blog }) => {
     const user = useSelector(state => state.user)
     const dispatch = useDispatch()
-    const blogStyle = {
-        paddingTop: 10,
-        paddingLeft: 2,
-        border: "solid",
-        borderWidth: 1,
-        marginBottom: 5
+    const history = useHistory()
+
+    if (!blog) {
+        history.push("/")
+        dispatch(set_notification("Blog does not exist!"))
+        return(null)
     }
 
     const handleLike = async (event) => {
@@ -21,34 +22,22 @@ const Blog = ({ blog }) => {
         event.preventDefault()
         if (window.confirm(`Remove "${blog.title}" by ${blog.author}?`)) {
             dispatch(remove_blog(blog))
+            history.push("/")
         }
     }
 
-
-    const [visible, setVisible] = useState(false)
     return(
-        <div id="blogObject"className="blogObject" style={blogStyle}>
-            "{blog.title}", by {blog.author}
-            <button
-                className="expandButton"
-                onClick={() => setVisible(!visible)}>
-                {visible ? "hide":"show"}
-            </button>
-            {visible && <div className ="hiddenContent">
-                <div>{blog.url}</div>
-                <div>
-                    <span id="likesNumber" className="likesNumber">{blog.likes}</span> likes
-                    <button id="likeButton" className="likeButton" onClick={handleLike}>like</button>
-                </div>
-                <div>poster: {blog.user.name}</div>
-                <div>{blog.user.username === user.username ? <button onClick={handleRemove}>delete</button> :null}</div>
-            </div>}
+        <div>
+            <h1>"{blog.title}", by {blog.author}</h1>
+            <p>URL: {blog.url}</p>
+            <div>
+                <span id="likesNumber" className="likesNumber">{blog.likes}</span> likes
+                <button id="likeButton" className="likeButton" onClick={handleLike}>like</button>
+            </div>
+            <div>added by {blog.user.name}</div>
+            <div>{blog.user.username === user.username ? <button onClick={handleRemove}>delete</button> :null}</div>
         </div>
     )
-}
-
-Blog.propTypes = {
-    blog: PropTypes.object.isRequired,
 }
 
 export default Blog
