@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 import BlogList from "./BlogList/BlogList"
 import UserDisplay from "./UserDisplay/UserDisplay"
 import { useDispatch } from "react-redux"
-import { logout } from "../../reducers/userReducer"
+import { logout } from "../../reducers/loginReducer"
 const SiteDisplay = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { login } from "../reducers/userReducer"
+import { login } from "../reducers/loginReducer"
 import { useDispatch, useSelector } from "react-redux"
 const loginForm = () => {
     const user = useSelector(state => state.user)

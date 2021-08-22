@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import Notification from "./components/Notification"
 import LoginForm from "./components/LoginForm"
 import { useSelector, useDispatch } from "react-redux"
-import { checkLogin } from "./reducers/userReducer"
+import { checkLogin } from "./reducers/loginReducer"
 import SiteDisplay from "./components/SiteDisplay/SiteDisplay"
 
 const App = () => {

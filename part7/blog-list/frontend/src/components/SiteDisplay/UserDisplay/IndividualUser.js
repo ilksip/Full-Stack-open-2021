@@ -1,8 +1,5 @@
 import React from "react"
-import { useParams } from "react-router-dom"
-const IndividualUser = ({ users }) => {
-    const id = useParams().id
-    const user = users.find(u => u.id === id)
+const IndividualUser = ({ user }) => {
     if (!user) {
         return null
     }

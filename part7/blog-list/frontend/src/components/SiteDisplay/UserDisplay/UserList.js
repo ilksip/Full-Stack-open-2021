@@ -1,6 +1,11 @@
 import React from "react"
 import { Link } from "react-router-dom"
-const UserList = ({ users }) => {
+import { useSelector } from "react-redux"
+const UserList = () => {
+    const users = useSelector(state => state.users)
+    if (!users) {
+        return null
+    }
     return(
         <div>
             <h2>Users:</h2>

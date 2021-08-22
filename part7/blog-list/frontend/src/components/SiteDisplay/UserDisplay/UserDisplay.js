@@ -1,33 +1,32 @@
-import React, { useState, useEffect } from "react"
-import userService from "../../../services/users"
+import React, { useEffect } from "react"
 import UserList from "./UserList"
 import IndividualUser from "./IndividualUser"
-import {
-    BrowserRouter as Router,
-    Switch, Route
-} from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { Switch, Route, useRouteMatch } from "react-router-dom"
+import { init_users } from "../../../reducers/userReducer"
 
 const UserDisplay = () => {
-    const [users, setUsers] = useState([])
+    const dispatch = useDispatch()
+    const users = useSelector(state => state.users)
+
     useEffect(() => {
-        userService.getAll()
-            .then(response => {
-                setUsers(response)
-                console.log(response)
-            })
+        dispatch(init_users())
     }, [])
+
+    const match = useRouteMatch("/users/:id")
+    const user = match
+        ? users.find(user => user.id === match.params.id)
+        : null
     return(
 
-        <Router>
-            <Switch>
-                <Route path="/users/:id">
-                    <IndividualUser users={users}/>
-                </Route>
-                <Route path="/">
-                    <UserList users = {users}/>
-                </Route>
-            </Switch>
-        </Router>
+        <Switch>
+            <Route path="/users/:id">
+                <IndividualUser user={user}/>
+            </Route>
+            <Route path="/">
+                <UserList/>
+            </Route>
+        </Switch>
     )
 }
 
