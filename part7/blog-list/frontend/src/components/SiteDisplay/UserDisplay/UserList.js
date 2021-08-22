@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 const UserList = () => {
     const users = useSelector(state => state.users)
+    const blogs = useSelector(state => state.blogs)
     if (!users) {
         return null
     }
@@ -18,7 +19,7 @@ const UserList = () => {
                     {users.map(user =>
                         <tr key={user.id}>
                             <th><Link to={`/users/${user.id}`}>{user.name}</Link></th>
-                            <th>{user.blogs.length}</th>
+                            <th>{blogs.filter(blog => blog.user.username === user.username).length}</th>
                         </tr>
                     )}
                 </tbody>
