@@ -19,7 +19,7 @@ const BlogDisplay = () => {
             <Route path="/blogs/:id">
                 <Blog blog={blog} />
             </Route>
-            <Route path="/">
+            <Route path="/blogs">
                 <BlogList blogs={blogs} />
             </Route>
         </Switch>

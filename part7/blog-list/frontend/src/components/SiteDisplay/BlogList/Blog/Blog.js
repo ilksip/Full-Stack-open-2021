@@ -22,7 +22,7 @@ const Blog = ({ blog }) => {
         event.preventDefault()
         if (window.confirm(`Remove "${blog.title}" by ${blog.author}?`)) {
             dispatch(remove_blog(blog))
-            history.push("/")
+            history.push("/blogs")
         }
     }
 

@@ -26,7 +26,7 @@ const BlogCreation = () => {
     return (
         <div>
             <div style={hideWhenVisible}>
-                <button onClick={() => setVisible(true)}>create a new blog</button>
+                <button style={{ marginBottom: 10 }} onClick={() => setVisible(true)}>create a new blog</button>
             </div>
             <div style={showWhenVisible}>
                 <h2>create new blog</h2>
