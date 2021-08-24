@@ -14,3 +14,5 @@ part 4 (Exercises 4.1 - 4.23)
 part 5 (Exercises 5.1 - 5.22)
 
 part 6 (Exercises 6.1 - 6.21)
+
+part 7 (Exercises 7.1 - 7.7 && 7.9 - 7.16)
